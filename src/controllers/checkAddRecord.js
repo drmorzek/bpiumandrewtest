@@ -2,15 +2,15 @@ const express = require("express");
 const sendToBpium = require('../utils/sendToBpium');
 const addRecord = express.Router();
 
-const fetchConfig = {
-    method: 'post',
-        url: '/api/v1/catalogs/14/records/'
-} 
+
 
 
 addRecord.post("/checkAddRecord", async (req, res) => {
 
-    // console.log(req.body)
+    const fetchConfig = {
+        method: 'post',
+        url: '/api/v1/catalogs/14/records/'
+    }
 
     let commentLead = req.body.payload.values['3'];
     let leadJSON = [{

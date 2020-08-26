@@ -3,8 +3,8 @@ const axios = require('axios');
 const urlbpium = 'https://andrewtest.bpium.ru';
 
 let  sendToBpium =  async (config) => {
-
-        config.url = urlbpium + config.url;
+        const url = urlbpium + config.url;
+        config.url = url;
         config.data = JSON.stringify(config.data);
         config.headers =  {
             'Authorization': 'Basic ZHJtb3J6ZWtAbWFpbC5ydTo2NTYyNzE1Mw==',

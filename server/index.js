@@ -4,15 +4,15 @@ const pid = process.pid;
 var url = require('url');
 
 let workers = []
-let io = [];
+let io = {};
 
 if (cluster.isMaster) {
-    const cpusCount = os.cpus().length;
+    const cpusCount = process.env.CPUS || os.cpus().length;
     console.log(`CPUs: ${cpusCount}`);
     console.log(`Master cluster started. Pid: ${pid}`);
 
-    for (let i = 0; i < 4; i++) {
-    // for (let i = 0; i < cpusCount-1; i++) {
+    // for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < cpusCount-1; i++) {
         let worker = cluster.fork();
 
         //Слушаем сообщение от workera
@@ -49,30 +49,31 @@ if (cluster.isWorker) {
     const cookieParser = require("cookie-parser");
     const consola = require("consola");
 
+
     const express = require("express");
-    const expressIO = express();
-    const serverIO = require("http").createServer(expressIO);
+    const app = express();
+    const server = require("http").createServer(app);
 
     console.log(`Worker cluster started. Pid: ${process.pid}`)
-    io[worker_id] = require("socket.io")(serverIO, {
+    io[worker_id] = require("socket.io")(server, {
       upgrade: true,
-      transports: [
-        "websocket",
-        "flashsocket",
-        "htmlfile",
-        "xhr-polling",
-        "jsonp-polling",
-        "polling"
-      ]
-    })
-    let urlIO = process.env.BASE_URL || "http://localhost:3000/"
-    let portIO = process.env.PORTIO || 3030;
-    serverIO.listen(portIO);
+      wsEngine: "eiows",
+      // transports: [
+      //   "websocket",
+      //   "flashsocket",
+      //   "htmlfile",
+      //   "xhr-polling",
+      //   "jsonp-polling",
+      //   "polling"
+      // ]
+    });
+
 
     io[worker_id].sockets.on('connection', async (socket) => {
       console.log('SERVERIO connected ' +
         process.pid
       );
+      // console.log(io);
       try {
         socket.on("createMessage", msg => {
           for (var j in io) {
@@ -87,7 +88,7 @@ if (cluster.isWorker) {
 
     });
 
-    const app = express();
+
     //подключение NuxtJS
     const {
       Nuxt,
@@ -128,7 +129,7 @@ if (cluster.isWorker) {
 
 
       if (typeof require(file.path) === 'function') {
-        console.log('check ' + file.path)
+        // console.log('check ' + file.path)
         app.use('/api', require(file.path));
       } else {
         console.warn(`No controller: ${file.path}`);
@@ -154,16 +155,16 @@ if (cluster.isWorker) {
       }
 
 
-      let appUrl = url.parse(urlIO, true)
+      // let appUrl = url.parse(urlIO, true)
       let portApp = process.env.PORT || 3000;
       // console.log(appUrl)
 
       app.use(nuxt.render);
 
-      app.listen(portApp, () => {
+      server.listen(portApp, () => {
 
         consola.ready({
-          message: `Server listening on ${appUrl.href}`,
+          message: `Server listening on http://${host}:${portApp}`,
           badge: true
         });
       });

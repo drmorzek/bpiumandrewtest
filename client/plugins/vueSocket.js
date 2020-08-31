@@ -3,8 +3,8 @@ import VueSocketIO from 'vue-socket.io'
 
 
 export default function({store}){
-  let portIO = process.env.PORTIO || 3030;
-  let url = (process.env.BASE_URL !== undefined) ? process.env.BASE_URL + `:${portIO}` : "http://localhost:3030/";
+  let portIO = process.env.PORT || 3030;
+  let url = (process.env.BASE_URL !== undefined) ? process.env.BASE_URL + `:${portIO}` : "http://localhost:3000/";
   Vue.use(
     new VueSocketIO({
       debug: true,
@@ -19,11 +19,16 @@ export default function({store}){
       // pingInterval: 1500000000,
       // maxHttpBufferSize: 10000000
       options: {
-          upgrade: true,
-        transports: [
-          'websocket',
-          'flashsocket', 'htmlfile', 'xhr-polling', 'jsonp-polling', 'polling'
-      ]
+        wsEngine: "eiows",
+        upgrade: true,
+        // transports: [
+        //   "websocket",
+        //   "flashsocket",
+        //   "htmlfile",
+        //   "xhr-polling",
+        //   "jsonp-polling",
+        //   "polling"
+        // ]
       },
       vuex: {
         store,

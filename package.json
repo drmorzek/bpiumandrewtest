@@ -19,6 +19,7 @@
     "consola": "^2.15.0",
     "cookie-parser": "^1.4.5",
     "cross-env": "^7.0.2",
+    "eiows": "^3.3.0",
     "express": "^4.17.1",
     "http": "0.0.1-security",
     "klaw-sync": "^6.0.0",

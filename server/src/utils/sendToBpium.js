@@ -7,17 +7,19 @@ let  sendToBpium =  async (config) => {
         config.url = url;
         config.data = JSON.stringify(config.data);
         config.headers =  {
-            'Authorization': 'Basic ZHJtb3J6ZWtAbWFpbC5ydTo2NTYyNzE1Mw==',
+            'Authorization': 'Basic blablabla',
             'Content-Type': 'application/json'}
-
         try {
             let response = await axios(config);
             return(response.data);
 
         }catch (e) {
-            console.log(e);
+            console.log(e.message);
         }
 ;
 };
 
-module.exports = sendToBpium;
+module.exports = {
+        axios,
+        sendToBpium
+    };

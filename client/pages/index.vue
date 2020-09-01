@@ -19,15 +19,16 @@ export default {
 
   },
   sockets: {
-    connect: async () => {
+    connect: () => {
 
       console.log("Socket connected");
     },
-
   },
+  // },
   methods: {
-      async message() {
-        await this.$socket.emit("createMessage", {
+      message() {
+        console.log('message')
+        this.$socket.emit("createMessage", {
           text: "FROM CLIENT"
         })
       }

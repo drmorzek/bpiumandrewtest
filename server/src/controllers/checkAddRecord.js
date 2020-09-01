@@ -29,12 +29,12 @@ addRecord.post("/checkAddRecord", async (req, res) => {
     };
     // let bpiumTo = JSON.stringify(fetchConfig)
 
-    process.send({
-      emit: "newMessage",
+    await req.io.sockets.emit("newMessage",
+      {
       route: "/checkAddRecord",
       bpiumFrom: req.body,
       bpiumTo: fetchConfig
-    })
+    });
     await sendToBpium(fetchConfig);
     res.json({
       message: 'Добавлен заказа в заказы2'

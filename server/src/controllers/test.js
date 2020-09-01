@@ -4,14 +4,15 @@ const test = express.Router();
 
 
 
-test.get("/test/:id", (req, res) => {
+test.get("/test/:id", async (req, res) => {
 
-    process.send({
-      emit: "newMessage",
-      text: "From test route",
+  await req.io.sockets.emit("newMessage", {
+    route: "/test/:id",
+    text: "From test route",
       message: `test ${req.params.id}`,
       params: req.params
-    })
+  });
+    
     res.json({
         message: `test ${req.params.id}`,
         params: req.params

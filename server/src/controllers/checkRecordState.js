@@ -27,12 +27,12 @@ recordState.post("/checkState", async (req, res) => {
       }
     };
     // let bpiumTo = JSON.stringify(fetchConfig)
-    process.send({
-      emit: "newMessage",
+    await req.io.sockets.emit("newMessage" ,
+      {
       route: "/checkState",
       bpiumFrom: req.body,
       bpiumTo: fetchConfig
-    })
+    });
 
     await sendToBpium(fetchConfig);
 

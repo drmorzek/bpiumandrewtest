@@ -61,8 +61,9 @@ app.use((req, res, next) => {
 app.use(nuxt.render)
 
 // Listen the server
-server.listen(port, '0.0.0.0')
-console.log('Server listening on localhost:' + port) // eslint-disable-line no-console
+server.listen(port, '0.0.0.0', () => {
+  console.log('Server listening on localhost:' + port) // eslint-disable-line no-console
+})
 
 // Socket.io
 io.on('connection', (socket) => {

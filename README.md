@@ -7,7 +7,8 @@
 $ npm install
 
 # serve with hot reload at localhost:3000
-$ npm run dev
+$ npm run dev:express //with express
+$ npm run dev:koa //with koa
 
 # build for production and launch server
 $ npm run build
